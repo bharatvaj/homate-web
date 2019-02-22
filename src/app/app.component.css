@@ -1,0 +1,18 @@
+.fill-viewport {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.container {
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+.center {
+    margin: 10px;
+    position: relative;
+}

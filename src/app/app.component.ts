@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Informer } from './informer';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,12 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'homate-web';
+
+  rooms = Informer.getInstance().rooms
+
+  selectedRoom = this.rooms[0]
+
+  roomClick(room){
+    this.selectedRoom = room;
+  }
 }
