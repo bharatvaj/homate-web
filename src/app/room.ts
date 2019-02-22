@@ -1,5 +1,6 @@
 export class Room {
     constructor(
-        public icon: string,
-        public name: string) { }
+        public id: string,
+        public name: string,
+        public icon: string = "") { }
 }
