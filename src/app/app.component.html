@@ -11,9 +11,9 @@
     </div>
   </mat-sidenav>
   <mat-toolbar>
-    <app-toolbar style="width: 100%;"></app-toolbar>
+    <app-toolbar [roomName]="selectedRoom.name" style="width: 100%;"></app-toolbar>
   </mat-toolbar>
-  <div class="main-container">
+  <div *ngIf="selectedRoom" class="main-container">
     <app-main [room]="selectedRoom"></app-main>
   </div>
 </mat-sidenav-container>

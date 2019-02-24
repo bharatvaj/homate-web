@@ -35,6 +35,8 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "baseHref": "/homate-web/",
+            "deployUrl": "/homate-web/",
             "outputPath": "dist/homate-web",
             "index": "src/index.html",
             "main": "src/main.ts",

@@ -1,10 +1,12 @@
 import { Room } from './room'
 import * as firebase from 'firebase/app';
 import 'firebase/firestore';
+import { Observable, of } from 'rxjs';
 export class Informer {
     private static instance: Informer;
     private _temperature: number;
-    private _rooms: Room[];
+    private _observableRooms: Observable<Array<Room>>;
+    private _rooms = Array<Room>()
     private constructor() {
         // Initialize Firebase
         var config = {
@@ -21,18 +23,20 @@ export class Informer {
         }
         return Informer.instance;
     }
-
-    get rooms(): Room[] {
+    get rooms(): Observable<Array<Room>> {
         //todo fetch from firebase?
-        this._rooms = [
-            new Room("", "")
-        ]
-        firebase.firestore().collection("rooms").get().then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-                this._rooms.push(doc.data() as Room);
-            });
-        });
-        return this._rooms;
+        this._observableRooms = of(this._rooms);
+        firebase.firestore().collection("rooms").onSnapshot(function (querySnapshot) {
+            querySnapshot.docChanges().forEach(function (change) {
+                if (change.type == "added") {
+                    this._rooms.push(change.doc.data() as Room)
+                } else if (change.type == "modified") {
+
+                } else if (change.type == "removed") {
+                }
+            }.bind(this));
+        }.bind(this));
+        return this._observableRooms;
     }
 
     get temperature(): number {

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Informer } from './informer';
+import { Room } from './room';
 
 @Component({
   selector: 'app-root',
@@ -9,11 +10,16 @@ import { Informer } from './informer';
 export class AppComponent {
   title = 'homate-web';
 
-  rooms = Informer.getInstance().rooms
+  rooms = Array<Room>()
 
-  selectedRoom = this.rooms[0]
 
-  roomClick(room){
+  a = Informer.getInstance().rooms.subscribe(h => {
+    this.rooms = h;
+  });
+
+  selectedRoom = new Room("", "", "")
+
+  roomClick(room) {
     this.selectedRoom = room;
   }
 }

@@ -1,6 +1,6 @@
 <div>
-  <div class="container-left">
-    Room Name
+  <div *ngIf="roomName" class="container-left">
+    {{ roomName }}
   </div>
   <div class="container-right">
     <input type="button" value="settings">
