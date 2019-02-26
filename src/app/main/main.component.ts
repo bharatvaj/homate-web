@@ -1,5 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
 import { Room } from '../room';
+import { Device } from '../device'
+import { from } from 'rxjs';
+import { Informer } from '../informer';
 
 @Component({
   selector: 'app-main',
@@ -10,9 +13,20 @@ export class MainComponent implements OnInit {
 
   @Input() room: Room;
 
-  constructor() { }
+  devices = new Array<Device>()
+
+  constructor() {
+  }
 
   ngOnInit() {
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+   
+    Informer.getInstance().devices(changes.room.currentValue).subscribe(h => {
+      this.devices = h;
+    });
+  }
+
 }
+

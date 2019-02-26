@@ -1,4 +1,5 @@
 import { Room } from './room'
+import { Device } from './device'
 import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 import { Observable, of } from 'rxjs';
@@ -19,7 +20,6 @@ export class Informer {
     static getInstance() {
         if (!Informer.instance) {
             Informer.instance = new Informer();
-            Informer.instance._temperature = 0;
         }
         return Informer.instance;
     }
@@ -38,17 +38,24 @@ export class Informer {
         }.bind(this));
         return this._observableRooms;
     }
+    devices(room: Room) : Observable<Array<Device>>  {
+        let devices = new Array<Device>();
+        let observableDevices = of(devices);
+        //fetch data from firebase
 
-    get temperature(): number {
-        return this._temperature;
-    }
-    set temperature(score) {
-        this._temperature = score;
-    }
-    increaseTemperature(): number {
-        return this._temperature += 1;
-    }
-    decreaseTemperature(): number {
-        return this._temperature -= 1;
+        console.log(room);
+        if(room.id == ""){
+            return observableDevices;
+        }
+
+        firebase.firestore().collection('rooms').doc(room.id).collection('devices').onSnapshot(function (querySnapshot) {
+            querySnapshot.docChanges().forEach(function (change) {
+                if (change.type == "added") {
+                    console.log(change.doc.data() as Device);
+                    devices.push(change.doc.data() as Device)
+                } 
+            }.bind(this));
+        }.bind(this));
+        return observableDevices;
     }
 }

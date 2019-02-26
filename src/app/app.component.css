@@ -10,3 +10,8 @@
     position: relative;
     margin: 2%;
 }
+
+.bg {
+    background-color: gainsboro;
+    padding: 2px; 
+}

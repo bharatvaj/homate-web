@@ -21,5 +21,6 @@ export class AppComponent {
 
   roomClick(room) {
     this.selectedRoom = room;
+    console.log(room);
   }
 }
